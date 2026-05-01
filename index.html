@@ -2,165 +2,47 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<!-- 核心：viewport 确保移动端适配（已存在，补充shrink-to-fit） -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<title>王者农场浇水计算器 选项卡终版</title>
+<title>王者农场浇水计算器</title>
 <style>
-/* 全局样式：改用 rem 作为基础单位，方便移动端缩放 */
 *{margin:0;padding:0;box-sizing:border-box;font-family:"微软雅黑",sans-serif;}
-html{
-    font-size: 16px; /* 基础字号，移动端会根据屏幕宽度调整 */
-}
-body{
-    background:#f5f7fa;
-    padding: 5vw; /* 用视口宽度做内边距，适配不同手机 */
-    font-size: 1rem;
-}
-.box{
-    max-width:500px;
-    width: 100%; /* 强制占满移动端宽度 */
-    margin:0 auto;
-    background:#fff;
-    border-radius:12px;
-    padding: 1.25rem; /* 替换固定px为rem */
-    box-shadow:0 2px 10px #ddd;
-}
-h2{
-    text-align:center;
-    color:#2e7d32;
-    margin-bottom: 1.25rem;
-    font-size: 1.5rem; /* 标题字号适配 */
-}
+html{font-size: 16px;}
+body{background:#f5f7fa;padding:5vw;font-size: 1rem;}
+.box{max-width:500px;width: 100%;margin:0 auto;background:#fff;border-radius:12px;padding:1.25rem;box-shadow:0 2px 10px #ddd;}
+h2{text-align:center;color:#2e7d32;margin-bottom: 1.25rem;font-size: 1.5rem;}
 
-/* 选项卡样式：优化移动端点击区域和字号 */
-.tab-box{
-    display:flex;
-    gap:8px;
-    margin-bottom: 1.25rem;
-}
-.tab{
-    flex:1;
-    height: 2.75rem; /* 增加移动端点击高度 */
-    line-height: 2.75rem;
-    text-align:center;
-    border-radius:6px;
-    background:#e0e0e0;
-    cursor:pointer;
-    font-weight:500;
-    font-size: 0.9rem; /* 选项卡字号适配手机 */
-    white-space: nowrap; /* 防止文字换行 */
-}
-.tab.active{
-    background:#4caf50;
-    color:#fff;
-}
+/* 选项卡样式 */
+.tab-box{display:flex;gap:8px;margin-bottom: 1.25rem;}
+.tab{flex:1;height: 2.75rem;line-height: 2.75rem;text-align:center;border-radius:6px;
+     background:#e0e0e0;cursor:pointer;font-weight:500;font-size: 0.9rem;white-space: nowrap;}
+.tab.active{background:#4caf50;color:#fff;}
 
-.item{
-    margin-bottom: 1.25rem;
-}
-label{
-    display:block;
-    margin-bottom: 0.5rem;
-    color:#333;
-    font-weight:500;
-    font-size: 1rem; /* 标签字号 */
-}
-input{
-    width:100%;
-    height: 2.875rem; /* 输入框高度适配 */
-    padding:0 0.75rem;
-    border:1px solid #ccc;
-    border-radius:6px;
-    font-size: 1rem; /* 输入框字号 */
-}
-button{
-    width:100%;
-    height: 3rem; /* 按钮高度适配 */
-    background:#4caf50;
-    color:#fff;
-    border:none;
-    border-radius:6px;
-    font-size: 1.05rem; /* 按钮字号 */
-    cursor:pointer;
-}
-button:active{
-    background:#388e3c;
-}
+.item{margin-bottom: 1.25rem;}
+label{display:block;margin-bottom: 0.5rem;color:#333;font-weight:500;font-size: 1rem;}
+input{width:100%;height: 2.875rem;padding:0 0.75rem;border:1px solid #ccc;border-radius:6px;font-size: 1rem;}
+button{width:100%;height: 3rem;background:#4caf50;color:#fff;border:none;border-radius:6px;font-size: 1.05rem;cursor:pointer;}
+button:active{background:#388e3c;}
 
-.result{
-    margin-top: 1.25rem;
-    padding: 0.9375rem;
-    background:#f1f8e9;
-    border-radius:8px;
-    display:none;
-}
-.info{
-    color:#d32f2f;
-    font-weight:bold;
-    margin: 0.625rem 0;
-    font-size: 0.95rem; /* 信息文本字号 */
-    line-height: 1.6; /* 增加行高，方便手机阅读 */
-    white-space: pre-line; /* 保留换行符 */
-}
-.final-plan{
-    margin-top: 0.75rem; 
-    padding-top: 0.75rem; 
-    border-top:1px dashed #ccc;
-}
-.plan-title{
-    font-weight:bold;
-    color:#1b5e20;
-    margin-bottom: 0.625rem;
-    font-size: 0.95rem;
-}
-.water-item{
-    padding: 0.375rem 0;
-    font-size: 0.95rem;
-    color:#222;
-    line-height: 1.5;
-}
-.tip{
-    margin-top: 0.625rem;
-    font-size: 0.85rem; /* 提示文字稍小，不占空间 */
-    color:#666;
-    line-height: 1.5;
-}
+.result{margin-top: 1.25rem;padding: 0.9375rem;background:#f1f8e9;border-radius:8px;display:none;}
+.info{color:#d32f2f;font-weight:bold;margin: 0.625rem 0;font-size: 0.95rem;line-height: 1.6;white-space: pre-line;}
+.final-plan{margin-top: 0.75rem; padding-top: 0.75rem; border-top:1px dashed #ccc;}
+.plan-title{font-weight:bold;color:#1b5e20;margin-bottom: 0.625rem;font-size: 0.95rem;}
+.water-item{padding: 0.375rem 0;font-size: 0.95rem;color:#222;line-height: 1.5;}
+.tip{margin-top: 0.625rem;font-size: 0.85rem;color:#666;line-height: 1.5;}
 
-/* 媒体查询：针对小屏手机（宽度≤480px）进一步优化 */
+/* 媒体查询：小屏优化 */
 @media (max-width: 480px) {
-    html{
-        font-size: 15px; /* 小屏缩小基础字号 */
-    }
-    .tab{
-        font-size: 0.85rem; /* 选项卡文字更小 */
-        height: 2.5rem;
-        line-height: 2.5rem;
-    }
-    .box{
-        padding: 1rem; /* 减少内边距，节省空间 */
-    }
-    h2{
-        font-size: 1.35rem; /* 标题进一步缩小 */
-    }
-    .info, .water-item, .plan-title{
-        font-size: 0.9rem; /* 核心内容稍小 */
-    }
-    .tip{
-        font-size: 0.8rem; /* 提示文字更小 */
-    }
+    html{font-size: 15px;}
+    .tab{font-size: 0.85rem;height: 2.5rem;line-height: 2.5rem;}
+    .box{padding: 1rem;}
+    h2{font-size: 1.35rem;}
+    .info, .water-item, .plan-title{font-size: 0.9rem;}
+    .tip{font-size: 0.8rem;}
 }
-
-/* 媒体查询：针对超小屏（宽度≤375px，如iPhone SE） */
 @media (max-width: 375px) {
-    html{
-        font-size: 14px;
-    }
-    .tab-box{
-        gap: 4px; /* 减少选项卡间距 */
-    }
-    .tab{
-        font-size: 0.8rem;
-    }
+    html{font-size: 14px;}
+    .tab-box{gap: 4px;}
+    .tab{font-size: 0.8rem;}
 }
 </style>
 </head>
@@ -168,32 +50,34 @@ button:active{
 <div class="box">
     <h2>王者农场浇水计算器</h2>
 
-    <!-- 选项卡 -->
+    <!-- 选项卡：精简为纯时长 -->
     <div class="tab-box">
-        <div class="tab active" data-index="0">1小时作物</div>
-        <div class="tab" data-index="1">8小时作物</div>
-        <div class="tab" data-index="2">16小时作物</div>
-        <div class="tab" data-index="3">32小时作物</div>
+        <div class="tab active" data-index="0">1小时</div>
+        <div class="tab" data-index="1">8小时</div>
+        <div class="tab" data-index="2">16小时</div>
+        <div class="tab" data-index="3">32小时</div>
     </div>
 
     <div class="item">
-        <label>游戏显示原生成熟时间（不浇水）</label>
+        <!-- 标签精简：去掉冗余表述 -->
+        <label>原生成熟时间（未浇水）</label>
         <input type="datetime-local" id="rawTime">
     </div>
 
-    <button id="calcBtn">立即计算</button>
+    <button id="calcBtn">计算</button>
 
     <div class="result" id="resBox">
         <div class="info" id="baseInfo"></div>
 
-        <!-- 最终保证方案 -->
+        <!-- 最终方案：标题精简 -->
         <div class="final-plan">
-            <div class="plan-title">✅ 保证最快成熟浇水方案</div>
+            <div class="plan-title">✅ 最优浇水方案</div>
             <div id="finalWater"></div>
         </div>
 
-        <div class="tip">说明：确保≥2次有效浇水，最后第二次预留足够间隔，绝对能正常完成浇水成熟</div>
-        <div class="tip" style="margin-top:5px;">💡 温馨提示：在刚浇完水的情况下计算，时间会更精确</div>
+        <!-- 提示文字精简 -->
+        <div class="tip">说明：≥2次有效浇水，末次前预留间隔，确保成熟</div>
+        <div class="tip" style="margin-top:5px;">💡 刚浇完水计算更精准</div>
     </div>
 </div>
 
@@ -228,10 +112,10 @@ function fmtTime(d){
     return `${y}-${m}-${day} ${h}:${mi}`;
 }
 
-// 计算主函数
+// 计算主函数：精简结果页文字
 function calc(){
     let rawVal = document.getElementById('rawTime').value;
-    if(!rawVal){alert("请选择游戏原生成熟时间");return;}
+    if(!rawVal){alert("请选择原生成熟时间");return;}
 
     let rule = cropRule[currCrop];
     let now = new Date();
@@ -241,7 +125,7 @@ function calc(){
     let maxAllow = new Date(now);
     maxAllow.setMinutes(now.getMinutes() + rule.total);
     if(rawEnd > maxAllow){
-        alert("输入的成熟时间不能大于【当前时间+作物总周期】，请重新输入！");
+        alert("成熟时间不能大于【当前时间+作物周期】！");
         return;
     }
 
@@ -263,23 +147,24 @@ function calc(){
 
     let last1 = realEnd;
 
-    // 展示文字
+    // 展示文字：大幅精简
     let cropNames = ["1小时","8小时","16小时","32小时"];
-    let info = `当前选择：${cropNames[currCrop]}作物\n`;
-    info += `最大间隔：${maxGap}分钟｜最小间隔：${minGap}分钟\n`;
-    info += `当前成熟：${fmtTime(rawEnd)}\n`;
+    let info = `作物：${cropNames[currCrop]}\n`;
+    info += `间隔：${maxGap}分（最大）｜${minGap}分（最小）\n`;
+    info += `原成熟：${fmtTime(rawEnd)}\n`;
     info += `最快成熟：${fmtTime(realEnd)}`;
     document.getElementById('baseInfo').innerText = info;
 
+    // 浇水方案文字精简
     let html = "";
-    html += `<div class="water-item">⏰ 最后第二次浇水时间范围：${fmtTime(last2Start)} ~ ${fmtTime(last2End)}</div>`;
-    html += `<div class="water-item">✅ 最后一次浇水时间点：${fmtTime(last1)}（浇完立即成熟）</div>`;
+    html += `<div class="water-item">⏰ 末次前浇水：${fmtTime(last2Start)} ~ ${fmtTime(last2End)}</div>`;
+    html += `<div class="water-item">✅ 末次浇水：${fmtTime(last1)}（浇完即熟）</div>`;
     document.getElementById('finalWater').innerHTML = html;
 
     document.getElementById('resBox').style.display = 'block';
 }
 
-// Safari 兼容：用 JS 绑定按钮事件（删除内联 onclick）
+// 绑定按钮事件
 document.getElementById('calcBtn').addEventListener('click', calc);
 </script>
 </body>

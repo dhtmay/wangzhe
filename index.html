@@ -2,170 +2,201 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>王者农场浇水计算器</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:"微软雅黑",sans-serif;}
-html{font-size: 16px;}
-body{background:#f5f7fa;padding:5vw;font-size: 1rem;}
-.box{max-width:500px;width: 100%;margin:0 auto;background:#fff;border-radius:12px;padding:1.25rem;box-shadow:0 2px 10px #ddd;}
-h2{text-align:center;color:#2e7d32;margin-bottom: 1.25rem;font-size: 1.5rem;}
+body{background:#f5f7fa;padding:15px;}
+.box{max-width:500px;margin:0 auto;background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 10px #ddd;}
+h2{text-align:center;color:#2e7d32;margin-bottom:18px;font-size:20px;}
 
-/* 选项卡样式 */
-.tab-box{display:flex;gap:8px;margin-bottom: 1.25rem;}
-.tab{flex:1;height: 2.75rem;line-height: 2.75rem;text-align:center;border-radius:6px;
-     background:#e0e0e0;cursor:pointer;font-weight:500;font-size: 0.9rem;white-space: nowrap;}
+.tab-box{display:flex;gap:6px;margin-bottom:8px;}
+.tab{flex:1;height:42px;line-height:42px;text-align:center;border-radius:6px;
+     background:#e0e0e0;font-size:14px;font-weight:500;cursor:pointer;}
 .tab.active{background:#4caf50;color:#fff;}
 
-.item{margin-bottom: 1.25rem;}
-label{display:block;margin-bottom: 0.5rem;color:#333;font-weight:500;font-size: 1rem;}
-input{width:100%;height: 2.875rem;padding:0 0.75rem;border:1px solid #ccc;border-radius:6px;font-size: 1rem;}
-button{width:100%;height: 3rem;background:#4caf50;color:#fff;border:none;border-radius:6px;font-size: 1.05rem;cursor:pointer;}
-button:active{background:#388e3c;}
-
-.result{margin-top: 1.25rem;padding: 0.9375rem;background:#f1f8e9;border-radius:8px;display:none;}
-.info{color:#d32f2f;font-weight:bold;margin: 0.625rem 0;font-size: 0.95rem;line-height: 1.6;white-space: pre-line;}
-.final-plan{margin-top: 0.75rem; padding-top: 0.75rem; border-top:1px dashed #ccc;}
-.plan-title{font-weight:bold;color:#1b5e20;margin-bottom: 0.625rem;font-size: 0.95rem;}
-.water-item{padding: 0.375rem 0;font-size: 0.95rem;color:#222;line-height: 1.5;}
-.tip{margin-top: 0.625rem;font-size: 0.85rem;color:#666;line-height: 1.5;}
-
-/* 媒体查询：小屏优化 */
-@media (max-width: 480px) {
-    html{font-size: 15px;}
-    .tab{font-size: 0.85rem;height: 2.5rem;line-height: 2.5rem;}
-    .box{padding: 1rem;}
-    h2{font-size: 1.35rem;}
-    .info, .water-item, .plan-title{font-size: 0.9rem;}
-    .tip{font-size: 0.8rem;}
+/* 基础信息 */
+.base-info{
+    background:#e8f5e9;
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:13px;
+    color:#2e7d32;
+    text-align:center;
+    margin-bottom:16px;
+    line-height:1.4;
 }
-@media (max-width: 375px) {
-    html{font-size: 14px;}
-    .tab-box{gap: 4px;}
-    .tab{font-size: 0.8rem;}
-}
+
+.item{margin-bottom:16px;}
+label{display:block;margin-bottom:6px;color:#333;font-size:14px;font-weight:500;}
+input{width:100%;height:44px;padding:0 10px;border:1px solid #ccc;border-radius:6px;font-size:15px;}
+.time-box{display:flex;gap:8px;}
+.time-box input{width:50%;}
+button{width:100%;height:46px;background:#4caf50;color:#fff;border:none;border-radius:6px;font-size:16px;}
+
+.result{margin-top:18px;padding:14px;background:#f1f8e9;border-radius:8px;display:none;}
+.info{color:#d32f2f;font-weight:bold;margin:8px 0;font-size:14px;line-height:1.6;white-space:pre-line;}
+.plan{margin-top:12px;padding-top:12px;border-top:1px dashed #ccc;}
+.plan-title{font-weight:bold;color:#1b5e20;margin-bottom:8px;font-size:14px;}
+.water-item{padding:5px 0;font-size:14px;line-height:1.5;}
+.tip{margin-top:8px;font-size:12px;color:#666;line-height:1.4;}
 </style>
 </head>
 <body>
 <div class="box">
     <h2>王者农场浇水计算器</h2>
 
-    <!-- 选项卡：精简为纯时长 -->
     <div class="tab-box">
-        <div class="tab active" data-index="0">1小时</div>
-        <div class="tab" data-index="1">8小时</div>
-        <div class="tab" data-index="2">16小时</div>
-        <div class="tab" data-index="3">32小时</div>
+        <div class="tab active" data-i="0">1小时</div>
+        <div class="tab" data-i="1">8小时</div>
+        <div class="tab" data-i="2">16小时</div>
+        <div class="tab" data-i="3">32小时</div>
+    </div>
+
+    <!-- 基础信息栏 -->
+    <div class="base-info" id="baseInfoText">
+        最短成熟周期：20分钟｜最佳浇水间隔：2分钟 ～ 20分钟
     </div>
 
     <div class="item">
-        <!-- 标签精简：去掉冗余表述 -->
-        <label>原生成熟时间（刚浇完水时）</label>
+        <label>原生成熟时间</label>
         <input type="datetime-local" id="rawTime">
     </div>
 
-    <button id="calcBtn">计算</button>
-
-    <div class="result" id="resBox">
-        <div class="info" id="baseInfo"></div>
-
-        <!-- 最终方案：标题精简 -->
-        <div class="final-plan">
-            <div class="plan-title">✅ 最优浇水方案</div>
-            <div id="finalWater"></div>
+    <div class="item">
+        <label>水分维持时间（时/分）</label>
+        <div class="time-box">
+            <input type="number" id="h" placeholder="小时" min="0" value="0">
+            <input type="number" id="m" placeholder="分钟" min="0" value="0">
         </div>
+    </div>
 
-        <!-- 提示文字精简 -->
-        <div class="tip">说明：次有效浇水，末次前预留间隔，确保成熟</div>
-        <div class="tip" style="margin-top:5px;">💡 刚浇完水计算更精准</div>
+    <button id="calc">计算</button>
+
+    <div class="result" id="res">
+        <div class="info" id="info"></div>
+        <div class="plan">
+            <div class="plan-title">✅ 最优浇水方案</div>
+            <div id="water"></div>
+        </div>
     </div>
 </div>
 
 <script>
-// 作物参数：总周期 / 最大间隔(1/3) / 最小间隔(1/30)
-const cropRule = [
-    {total:60,   maxGap:20,  minGap:2},
-    {total:480,  maxGap:160, minGap:16},
-    {total:960,  maxGap:320, minGap:32},
-    {total:1920, maxGap:640, minGap:64}
+// 作物：总分钟 / 最大间隔 / 最小间隔
+const crop = [
+    {t:60,  max:20, min:2},
+    {t:480, max:160, min:16},
+    {t:960, max:320, min:32},
+    {t:1920,max:640, min:64}
 ];
+let curr = 0;
 
-// 当前选中作物
-let currCrop = 0;
-
-// 选项卡切换
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+// 切换作物
+document.querySelectorAll('.tab').forEach(tab=>{
+    tab.onclick = ()=>{
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
         tab.classList.add('active');
-        currCrop = parseInt(tab.dataset.index);
-    });
+        curr = parseInt(tab.dataset.i);
+        autoWater();
+        updateBaseInfo();
+    }
 });
 
-// 时间格式化
-function fmtTime(d){
-    let y=d.getFullYear();
-    let m=String(d.getMonth()+1).padStart(2,'0');
-    let day=String(d.getDate()).padStart(2,'0');
-    let h=String(d.getHours()).padStart(2,'0');
-    let mi=String(d.getMinutes()).padStart(2,'0');
-    return `${y}-${m}-${day} ${h}:${mi}`;
+// 自动填充水分 = 总周期 1/3
+function autoWater(){
+    let total = crop[curr].t / 3;
+    let hh = Math.floor(total / 60);
+    let mm = Math.round(total % 60);
+    document.getElementById('h').value = hh;
+    document.getElementById('m').value = mm;
 }
 
-// 计算主函数：精简结果页文字
-function calc(){
-    let rawVal = document.getElementById('rawTime').value;
-    if(!rawVal){alert("请选择原生成熟时间");return;}
+// 分钟转小时分钟文本
+function toHourMin(totalMin){
+    let h = Math.floor(totalMin / 60);
+    let m = Math.round(totalMin % 60);
+    if(h === 0) return `${m}分钟`;
+    return `${h}小时${m}分钟`;
+}
 
-    let rule = cropRule[currCrop];
+// 更新基础信息（最短成熟周期已修正）
+function updateBaseInfo(){
+    let r = crop[curr];
+    // ✅ 正确公式：初次减1/12，剩余减1/5
+    let step1 = r.t - r.t/12;
+    let realMin = step1 * 4/5;
+    
+    let minText = toHourMin(r.min);
+    let maxText = toHourMin(r.max);
+    let realText = toHourMin(realMin);
+    
+    let txt = `最短成熟周期：${realText}｜最佳浇水间隔：${minText} ～ ${maxText}`;
+    document.getElementById('baseInfoText').innerText = txt;
+}
+
+// 时间格式化（X月X日 HH:MM）
+function fmt(d){
+    let m = String(d.getMonth()+1).padStart(2,'0');
+    let day = String(d.getDate()).padStart(2,'0');
+    let h = String(d.getHours()).padStart(2,'0');
+    let mi = String(d.getMinutes()).padStart(2,'0');
+    return `${m}月${day}日 ${h}:${mi}`;
+}
+
+// 初始化
+autoWater();
+updateBaseInfo();
+
+document.getElementById('calc').onclick = function(){
+    let raw = document.getElementById('rawTime').value;
+    if(!raw){ alert("请选择成熟时间"); return; }
+
     let now = new Date();
-    let rawEnd = new Date(rawVal);
+    let rawEnd = new Date(raw);
+    let rule = crop[curr];
 
-    // 时间合法性校验
+    // 时间校验
     let maxAllow = new Date(now);
-    maxAllow.setMinutes(now.getMinutes() + rule.total);
+    maxAllow.setMinutes(now.getMinutes() + rule.t);
     if(rawEnd > maxAllow){
-        alert("成熟时间不能大于【当前时间+作物周期】！");
+        alert("时间不能超过当前+作物周期！");
         return;
     }
 
-    // 核心公式：剩余时间 × 4/5 = 最快成熟剩余时间
-    let remainMinutes = (rawEnd - now) / (60 * 1000);
-    let realRemain = remainMinutes * 4 / 5;
+    // 水分时间计算
+    let h = parseInt(document.getElementById('h').value) || 0;
+    let m = parseInt(document.getElementById('m').value) || 0;
+    let userWater = h * 60 + m;
+    let fullWater = rule.t / 3;
+    let past = fullWater - userWater;
+    let short = past / 4;
+
+    // ✅ 核心正确公式：双重缩短
+    let remain = (rawEnd - now) / 60000;
+    let realRemain = (remain - short) * 4/5;
     let realEnd = new Date(now);
-    realEnd.setMinutes(realEnd.getMinutes() + realRemain);
+    realEnd.setMinutes(now.getMinutes() + realRemain);
 
-    // 正确逻辑
-    let maxGap = rule.maxGap;
-    let minGap = rule.minGap;
-
+    // 浇水时间范围
     let last2Start = new Date(realEnd);
-    last2Start.setMinutes(realEnd.getMinutes() - maxGap);
-
+    last2Start.setMinutes(realEnd.getMinutes() - rule.max);
     let last2End = new Date(realEnd);
-    last2End.setMinutes(realEnd.getMinutes() - minGap);
+    last2End.setMinutes(realEnd.getMinutes() - rule.min);
 
-    let last1 = realEnd;
+    // 显示信息
+    let txt = `作物：${[1,8,16,32][curr]}小时\n`;
+    txt += `原成熟：${fmt(rawEnd)}\n`;
+    txt += `已缩短：${short.toFixed(1)}分钟\n`;
+    txt += `最快成熟：${fmt(realEnd)}`;
+    document.getElementById('info').innerText = txt;
 
-    // 展示文字：大幅精简
-    let cropNames = ["1小时","8小时","16小时","32小时"];
-    let info = `作物：${cropNames[currCrop]}\n`;
-    info += `间隔：${maxGap}分（最大）｜${minGap}分（最小）\n`;
-    info += `原成熟：${fmtTime(rawEnd)}\n`;
-    info += `最快成熟：${fmtTime(realEnd)}`;
-    document.getElementById('baseInfo').innerText = info;
-
-    // 浇水方案文字精简
-    let html = "";
-    html += `<div class="water-item">⏰ 末次前浇水：${fmtTime(last2Start)} ~ ${fmtTime(last2End)}</div>`;
-    html += `<div class="water-item">✅ 末次浇水：${fmtTime(last1)}（浇完即熟）</div>`;
-    document.getElementById('finalWater').innerHTML = html;
-
-    document.getElementById('resBox').style.display = 'block';
+    // 浇水方案（X月X日 HH:MM - HH:MM）
+    let html = `⏰ 末次前浇水：${fmt(last2Start)} - ${fmt(last2End)}<br>`;
+    html += `✅ 末次浇水：${fmt(realEnd)}（浇完即熟）`;
+    document.getElementById('water').innerHTML = html;
+    document.getElementById('res').style.display = 'block';
 }
-
-// 绑定按钮事件
-document.getElementById('calcBtn').addEventListener('click', calc);
 </script>
 </body>
 </html>

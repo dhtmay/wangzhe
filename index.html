@@ -58,6 +58,15 @@ button{width:100%;height:46px;background:#4caf50;color:#fff;border:none;border-r
 .plan{margin-top:12px;padding-top:12px;border-top:1px dashed #ccc;}
 .plan-title{font-weight:bold;color:#1b5e20;margin-bottom:8px;font-size:14px;}
 .water-item{padding:5px 0;font-size:14px;line-height:1.5;}
+.sign{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px dashed #ccc;
+    text-align:center;
+    color:#2e7d32;
+    font-size:14px;
+    font-weight:bold;
+}
 </style>
 </head>
 <body>
@@ -106,9 +115,10 @@ button{width:100%;height:46px;background:#4caf50;color:#fff;border:none;border-r
     <div class="result" id="res">
         <div class="info" id="info"></div>
         <div class="plan">
-            <div class="plan-title">✅ 最优浇水方案</div>
+            <div class="plan-title">浇水方案：</div>
             <div id="water"></div>
         </div>
+        <div class="sign">copyright@231014</div>
     </div>
 </div>
 
@@ -119,7 +129,7 @@ const crop = [
     {t:960, max:320, min:32},
     {t:1920,max:640, min:64}
 ];
-let curr = 2; // 默认16小时作物
+let curr = 2;
 let inputMode = "datetime";
 
 document.querySelectorAll('.tab').forEach(tab=>{
@@ -217,7 +227,6 @@ document.getElementById('calc').onclick = function(){
     let realEnd = new Date(now);
     realEnd.setMinutes(now.getMinutes() + realRemain);
 
-    // 最晚种植时间 = 最快成熟时间 - 最短成熟周期
     let step1 = rule.t - rule.t/12;
     let minTotalMins = step1 * 4/5;
     let latestPlantTime = new Date(realEnd);
@@ -228,16 +237,16 @@ document.getElementById('calc').onclick = function(){
     let last2End = new Date(realEnd);
     last2End.setMinutes(realEnd.getMinutes() - rule.min);
 
-    // 结果输出（种植时间放最后）
-    let txt = `当前计算时间：${fmt(now)}\n`;
-    txt += `作物：${[1,8,16,32][curr]}小时\n`;
-    txt += `已缩短：${short.toFixed(1)}分钟\n`;
-    txt += `最快成熟：${fmt(realEnd)}\n`;
-    txt += `如果中途没有出现干涸，那么最可能的种植时间是：${fmt(latestPlantTime)}`;
+    // 按你要求的格式输出
+    let txt =  `结果生成时间：${fmt(now)}\n`;
+    txt += `作物生长周期：${[1,8,16,32][curr]}小时\n`;
+    txt += `可能种植时间：${fmt(latestPlantTime)}\n`;
+    txt += `累积缩短时间：${short.toFixed(1)}分钟\n`;
+    txt += `最快成熟时间：${fmt(realEnd)}\n`;
     document.getElementById('info').innerText = txt;
 
-    let html = `⏰ 末次前浇水：${fmt(last2Start)} - ${fmt(last2End)}<br>`;
-    html += `✅ 末次浇水：${fmt(realEnd)}（浇完即熟）`;
+    let html = `成熟前浇水区间：${fmt(last2Start)} - ${fmt(last2End)}<br>`;
+    html += `卡点成熟浇水时间：${fmt(realEnd)}`;
     document.getElementById('water').innerHTML = html;
     document.getElementById('res').style.display = 'block';
 }
